@@ -6,7 +6,7 @@
 /// </summary>
 public class AStar: PathFinder {
 
-	public List<Labirynth.Point> findPath (Labirynth labirynth, Labirynth.Point source, Labirynth.Point destination)
+	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination)
 	{
 		throw new System.NotImplementedException ();
 	}

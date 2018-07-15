@@ -69,20 +69,20 @@ public class LabirynthActor : MonoBehaviour
 		}
 
 		// Инициализируем вершину начала пути = текущему положения объекта
-		Labirynth.Point source = labirynth.GetPoint (transform.position);
+		Point source = labirynth.GetPoint (transform.position);
 		// Инициализируем вершину конца пути = точка нажатия
-		Labirynth.Point destination = labirynth.GetPoint (hit.point);
+		Point destination = labirynth.GetPoint (hit.point);
 		PathFinder finder = GetPathFinder (pathFinder);
 
 		if (visualize) {
 			// Поиск пути и визуализация алгоритма поиска
 			labirynth.Record ();
-			List<Labirynth.Point> path = finder.findPath (labirynth, source, destination);
-			List<Labirynth.Point> algo = labirynth.StopRecord ();
+			List<Point> path = finder.FindPath (labirynth, source, destination);
+			List<Point> algo = labirynth.StopRecord ();
 			_mover.VisualizeAndMove (labirynth, algo, path);
 		} else {
 			// Поиск пути и перемещение
-			List<Labirynth.Point> path = finder.findPath (labirynth, source, destination);
+			List<Point> path = finder.FindPath (labirynth, source, destination);
 			_mover.Move (labirynth, path);
 		}
 	}

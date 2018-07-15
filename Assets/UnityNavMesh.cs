@@ -11,11 +11,11 @@ public class UnityNavMesh: PathFinder {
 	public UnityNavMesh() {
 	}
 
-	public List<Labirynth.Point> findPath (Labirynth labirynth, Labirynth.Point source, Labirynth.Point destination)
+	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination)
 	{
 		NavMeshPath navMeshPath = new NavMeshPath ();
 		NavMesh.CalculatePath (source.position, destination.position, NavMesh.AllAreas, navMeshPath);
-		List<Labirynth.Point> path = new List<Labirynth.Point>();
+		List<Point> path = new List<Point>();
 		foreach (Vector3 corner in navMeshPath.corners) {
 			path.Add(labirynth.GetPoint(corner));
 		}

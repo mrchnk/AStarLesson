@@ -13,7 +13,7 @@ public interface PathFinder
 	/// <param name="labirynth">Лабиринт-граф</param>
 	/// <param name="source">Вершина начала пути</param>
 	/// <param name="destination">Вершина конца пути</param>
-	List<Labirynth.Point> findPath (Labirynth labirynth, Labirynth.Point source, Labirynth.Point destination);
+	List<Point> FindPath (Labirynth labirynth, Point source, Point destination);
 
 }
 

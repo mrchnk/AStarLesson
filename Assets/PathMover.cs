@@ -20,7 +20,7 @@ public class PathMover : MonoBehaviour
 
 	private LineRenderer _line;
 
-	private List<Labirynth.Point> _path;
+	private List<Point> _path;
 	private Labirynth _labirynth;
 
 	/// <summary>
@@ -28,7 +28,7 @@ public class PathMover : MonoBehaviour
 	/// </summary>
 	/// <param name="labirynth">Лабиринт.</param>
 	/// <param name="path">Путь.</param>
-	public void Move(Labirynth labirynth, List<Labirynth.Point> path) {
+	public void Move(Labirynth labirynth, List<Point> path) {
 		if (path == null) {
 			return;
 		}
@@ -44,11 +44,11 @@ public class PathMover : MonoBehaviour
 	/// <param name="labirynth">Лабиринт.</param>
 	/// <param name="algo">Работа алгоритма.</param>
 	/// <param name="path">Путь.</param>
-	public void VisualizeAndMove(Labirynth labirynth, List<Labirynth.Point> algo, List<Labirynth.Point> path) {
+	public void VisualizeAndMove(Labirynth labirynth, List<Point> algo, List<Point> path) {
 		if (algo.Count <= 1) {
 			Move (labirynth, path);
 		} else {
-			Move (null, new List<Labirynth.Point> ());
+			Move (null, new List<Point> ());
 			StartCoroutine (VisualizeAndMoveCoro (labirynth, algo, path));
 		}
 
@@ -57,7 +57,7 @@ public class PathMover : MonoBehaviour
 	/// <summary>
 	/// Вспомогательная функция для запуска со-программы визуализации
 	/// </summary>
-	private IEnumerator VisualizeAndMoveCoro(Labirynth labirynth, List<Labirynth.Point> algo, List<Labirynth.Point> path) {
+	private IEnumerator VisualizeAndMoveCoro(Labirynth labirynth, List<Point> algo, List<Point> path) {
 		float visualizeTime = 3f;
 		float displayTime = 3f;
 
@@ -84,7 +84,7 @@ public class PathMover : MonoBehaviour
 
 	void Start () {
 		_line = GetComponent<LineRenderer> ();
-		_path = new List<Labirynth.Point> ();
+		_path = new List<Point> ();
 	}
 
 	void Update () {
@@ -101,7 +101,7 @@ public class PathMover : MonoBehaviour
 
 		while (_path.Count > 0) {
 			// следующая цель
-			Labirynth.Point next = _path [0];
+			Point next = _path [0];
 			// расстояние до следующей цели
 			float distanceToNext = Vector3.Distance (transform.position, next.position);
 			if (distanceToNext < travelDistance) {
@@ -139,7 +139,7 @@ public class PathMover : MonoBehaviour
 	/// <summary>
 	/// Рисует путь с помощью LineRenderer
 	/// </summary>
-	private void DrawPath(List<Labirynth.Point> path) {
+	private void DrawPath(List<Point> path) {
 		if (_line != null) {
 			_line.positionCount = path.Count;
 			for (int i = 0; i < path.Count; i++)  {

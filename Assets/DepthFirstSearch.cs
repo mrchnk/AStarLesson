@@ -5,12 +5,12 @@
 /// </summary>
 public class DepthFirstSearch : PathFinder {
 
-	public List<Labirynth.Point> findPath (Labirynth labirynth, Labirynth.Point source, Labirynth.Point destination) {
-		HashSet<Labirynth.Point> visited = new HashSet<Labirynth.Point> ();
-		List<Labirynth.Point> path = new List<Labirynth.Point> ();
+	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination) {
+		HashSet<Point> visited = new HashSet<Point> ();
+		List<Point> path = new List<Point> ();
 		path.Add (source);
 		visited.Add (source);
-		findPath (labirynth, destination, path, visited);
+		FindPath (labirynth, destination, path, visited);
 		return path;
 	}
 
@@ -22,18 +22,18 @@ public class DepthFirstSearch : PathFinder {
 	/// <param name="destination">цель</param>
 	/// <param name="path">текущий путь</param>
 	/// <param name="visited">вершины которые мы обошли алгоритмом</param>
-	private bool findPath(Labirynth labirynth, Labirynth.Point destination, 
-		List<Labirynth.Point> path, HashSet<Labirynth.Point> visited) {
+	private bool FindPath(Labirynth labirynth, Point destination, 
+		List<Point> path, HashSet<Point> visited) {
 
 		// последний компонент пути
-		Labirynth.Point last = path [path.Count - 1];
+		Point last = path [path.Count - 1];
 		if (last == destination) { // путь заканчивается на цели - значит это искомый путь
 			return true;
 		}
 
 		// текущие соседи
-		List<Labirynth.Point> neighbours = labirynth.GetNeighbours(last);
-		foreach (Labirynth.Point neighbour in neighbours) {
+		List<Point> neighbours = labirynth.GetNeighbours(last);
+		foreach (Point neighbour in neighbours) {
 			if (visited.Contains (neighbour)) {
 				// эту вершину мы уже посетили
 				continue;
@@ -44,7 +44,7 @@ public class DepthFirstSearch : PathFinder {
 			path.Add (neighbour); // дополняем путь одной вершиной
 			visited.Add (neighbour); // отмечаем вершину посещенной
 			// проводим поиск с использованием этой вершины
-			if (findPath (labirynth, destination, path, visited)) {
+			if (FindPath (labirynth, destination, path, visited)) {
 				// если поиск с этой вершиной привел к положительному результату
 				// досрочно заканчиваем выполнение функции с положительным результатом
 				return true;

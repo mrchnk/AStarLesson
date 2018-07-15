@@ -5,8 +5,8 @@
 /// </summary>
 public class DefaultPathFinder : PathFinder {
 
-	public List<Labirynth.Point> findPath (Labirynth labirynth, Labirynth.Point source, Labirynth.Point destination) {
-		List<Labirynth.Point> path = new List<Labirynth.Point> ();
+	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination) {
+		List<Point> path = new List<Point> ();
 		path.Add (source);
 		path.Add (destination);
 		return path;
