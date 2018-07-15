@@ -17,7 +17,7 @@ public class LabirynthActor : MonoBehaviour
 	{
 		Default,
 		DepthFirstSearch,
-		BreathFirstSearch,
+		BreadthFirstSearch,
 		Dijkstra,
 		AStar,
 		UnityNavMesh
@@ -95,8 +95,8 @@ public class LabirynthActor : MonoBehaviour
 		switch (pathFinder) {
 		case PathFinderEnum.DepthFirstSearch:
 			return new DepthFirstSearch ();
-		case PathFinderEnum.BreathFirstSearch:
-			return new BreathFirstSearch ();
+		case PathFinderEnum.BreadthFirstSearch:
+			return new BreadthFirstSearch ();
 		case PathFinderEnum.Dijkstra:
 			return new Dijkstra ();
 		case PathFinderEnum.AStar:

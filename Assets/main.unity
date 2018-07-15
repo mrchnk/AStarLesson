@@ -2142,7 +2142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labirynth: {fileID: 1389973451}
-  pathFinder: 5
+  pathFinder: 0
 --- !u!1 &1526266152
 GameObject:
   m_ObjectHideFlags: 0

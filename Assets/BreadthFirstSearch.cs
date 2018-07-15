@@ -3,10 +3,11 @@
 /// <summary>
 /// Поиск в ширину
 /// </summary>
-public class BreathFirstSearch: PathFinder {
+public class BreadthFirstSearch: PathFinder {
 
 	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination)
 	{
+		
 		// карта перемещений (вершина -> откуда в нее попали)
 		// по совместительству является множеством вершин которые мы обошли
 		Dictionary<Point, Point> from = new Dictionary<Point, Point> ();
