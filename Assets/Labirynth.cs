@@ -189,14 +189,14 @@ public class Labirynth : MonoBehaviour {
 	/// Рисует крест в вершине графа заданным цветом (используя Debug.DrawLine)
 	/// </summary>
 	public void DrawPoint(Point p, Color color, float duration = 1.0f) {
-		DrawPoint (p.position, color, duration);
+		DrawPoint (p.position + Vector3.up, color, duration);
 	}
 
 	/// <summary>
 	/// Рисует квадрат-клетку в вершине графа заданным цветом (используя Debug.DrawLine)
 	/// </summary>
 	public void DrawSquare(Point p, Color color, float duration = 1.0f) {
-		DrawSquare (p.position, color, duration);
+		DrawSquare (p.position + Vector3.up, color, duration);
 	}
 
 	void DrawPoint(Vector3 point, Color color, float duration = 1.0f) {
