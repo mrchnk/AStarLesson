@@ -160,6 +160,10 @@ public class Labirynth : MonoBehaviour {
 		return _grid[x, z];
 	}
 
+	public float GetCost(Point from, Point to) {
+		return SwampAt (to) ? 3 : 1;
+	}
+
 	/// <summary>
 	/// Возвращает все проходимые соседние вершины (включая "болото")
 	/// </summary>
