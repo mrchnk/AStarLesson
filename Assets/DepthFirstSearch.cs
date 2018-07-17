@@ -26,6 +26,9 @@ public class DepthFirstSearch : PathFinder {
 		while (frontier.Count > 0) {
 			// Берем первую вершину в стеке
 			Point current = frontier.Pop ();
+			if (current == destination) {
+				break;
+			}
 			// Ищем все соседние вершины
 			List<Point> neighbours = labirynth.GetNeighbours (current);
 

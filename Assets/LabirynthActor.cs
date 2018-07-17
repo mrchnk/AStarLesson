@@ -19,6 +19,7 @@ public class LabirynthActor : MonoBehaviour
 		DepthFirstSearch,
 		BreadthFirstSearch,
 		Dijkstra,
+		GreedyBestFirst,
 		AStar,
 		Unity
 	}
@@ -99,6 +100,8 @@ public class LabirynthActor : MonoBehaviour
 			return new BreadthFirstSearch ();
 		case PathFinderEnum.Dijkstra:
 			return new Dijkstra ();
+		case PathFinderEnum.GreedyBestFirst:
+			return new GreedyBestFirst ();
 		case PathFinderEnum.AStar:
 			return new AStar ();
 		case PathFinderEnum.Unity:
