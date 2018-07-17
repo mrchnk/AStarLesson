@@ -20,7 +20,7 @@ public class LabirynthActor : MonoBehaviour
 		BreadthFirstSearch,
 		Dijkstra,
 		AStar,
-		UnityNavMesh
+		Unity
 	}
 
 	/// <summary>
@@ -101,8 +101,8 @@ public class LabirynthActor : MonoBehaviour
 			return new Dijkstra ();
 		case PathFinderEnum.AStar:
 			return new AStar ();
-		case PathFinderEnum.UnityNavMesh:
-			return new UnityNavMesh ();
+		case PathFinderEnum.Unity:
+			return new UnityPathFinder ();
 		default:
 			return new DefaultPathFinder ();
 		}

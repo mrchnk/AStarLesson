@@ -33,8 +33,8 @@ public class Labirynth : MonoBehaviour {
 	/// </summary>
 	private readonly Vector3Int[] _neighbours = new Vector3Int[]{
 		new Vector3Int(1, 0, 0),
-		new Vector3Int(-1, 0, 0),
 		new Vector3Int(0, 0, 1),
+		new Vector3Int(-1, 0, 0),
 		new Vector3Int(0, 0, -1)
 	};
 
@@ -161,23 +161,26 @@ public class Labirynth : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Возвращает всех соседей вершины (в том числе непроходимые и болото)
+	/// Возвращает все проходимые соседние вершины (включая "болото")
 	/// </summary>
 	public List<Point> GetNeighbours(Point point) {
 		if (_recordings != null) {
 			_recordings.Add (point);
 		}
 		List<Point> list = new List<Point> ();
-		foreach (Vector3Int neighbour in _neighbours) {
-			int x = point.x + neighbour.x;
-			int z = point.z + neighbour.z;
+		foreach (Vector3Int neighbourCoordinates in _neighbours) {
+			int x = point.x + neighbourCoordinates.x;
+			int z = point.z + neighbourCoordinates.z;
 			if (x < 0 || x >= width) {
 				continue;
 			}
 			if (z < 0 || z >= depth) {
 				continue;
 			}
-			list.Add (GetPoint (x, z));
+			Point neighbour = GetPoint (x, z);
+			if (!ObstacleAt (neighbour)) {
+				list.Add (neighbour);
+			}
 		}
 		return list;
 	}

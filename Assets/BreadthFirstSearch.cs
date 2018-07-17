@@ -5,79 +5,65 @@
 /// </summary>
 public class BreadthFirstSearch: PathFinder {
 
-	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination)
-	{
-		
-		// карта перемещений (вершина -> откуда в нее попали)
-		// по совместительству является множеством вершин которые мы обошли
-		Dictionary<Point, Point> from = new Dictionary<Point, Point> ();
-		// граница множества вершин которые мы обошли
-		HashSet<Point> fringe = new HashSet<Point> ();
-		// начало содержится в карте и ссылается на null
-		from.Add (source, null);
-		// кольцо начинается с начальной вершины
-		fringe.Add (source);
+	/// <summary>
+	/// Ищет путь в графе-лабиринте
+	/// </summary>
+	/// <returns>Путь по вершинам в графе</returns>
+	/// <param name="labirynth">Лабиринт-граф</param>
+	/// <param name="source">Вершина начала пути</param>
+	/// <param name="destination">Вершина конца пути</param>
+	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination) {
+		// Карта "обратных" перемещений (вершина) -> (откуда мы в нее попали)
+		Dictionary<Point, Point> cameFrom = new Dictionary<Point, Point> ();
+		// Очередь вершин, по которым предстоит пройти
+		// Является границей текущей карты "обратных" перемещений
+		Queue<Point> frontier = new Queue<Point> ();
 
-		if (FindPath (labirynth, destination, from, fringe)) {
-			// если путь найден, то сосставляем его используя нашу карту перемещений
-			return BuildPath (from, source, destination);		
-		} else {
-			// иначе возвращаем пустой путь
-			return new List<Point> ();
-		}
-	}
+		// Добавляем информацию о начале
+		cameFrom.Add (source, null);
+		frontier.Enqueue (source);
 
-	private bool FindPath(Labirynth labirynth, Point destination, 
-		Dictionary<Point, Point> from,
-		HashSet<Point> fringe) {
-
-		if (fringe.Contains (destination)) {
-			// цель попала на границу
-			// заканчиваем поиск
-			return true;
-		} else if (fringe.Count == 0) {
-			// граница множества пуста
-			return false;
-		}
-
-		// расширяем множество вершин до соседних
-		// составляем новую границу множества
-		HashSet<Point> nextFringe = new HashSet<Point> ();
-		foreach (Point f in fringe) {
-			List<Point> neighbours = labirynth.GetNeighbours (f);
+		while (frontier.Count > 0) {
+			// Берем первую вершину в очереди
+			Point current = frontier.Dequeue ();
+			// Ищем все соседние вершины
+			List<Point> neighbours = labirynth.GetNeighbours (current);
 			foreach (Point neighbour in neighbours) {
-				if (from.ContainsKey (neighbour)) {
+				// Эту вершину мы включили в нашу карту перемещений,
+				// значит мы смогли в нее прийти другим способом
+				if (cameFrom.ContainsKey (neighbour)) {
 					continue;
 				}
-				if (labirynth.ObstacleAt (neighbour)) {
-					continue;
-				}
-				from.Add (neighbour, f);
-				nextFringe.Add (neighbour);
+				// Записываем что в `neighbour` мы попали из `current`
+				cameFrom.Add (neighbour, current);
+				frontier.Enqueue (neighbour);
 			}
 		}
-		// проводим следующую итерацию алгоритма
-		return FindPath (labirynth, destination, from, nextFringe);
+
+		return BuildPath (cameFrom, source, destination);
 	}
 
-	private List<Point> BuildPath(
-		Dictionary<Point, Point> from, 
-		Point source,
-		Point destination) {
-
+	/// <summary>
+	/// Строит путь используя карту "обратных" перемещений
+	/// </summary>
+	/// <returns>Путь из `source` в `destination` или пустой список, если путь не найден</returns>
+	private List<Point> BuildPath(Dictionary<Point, Point> cameFrom, Point source, Point destination) {
 		List<Point> path = new List<Point> ();
-
-		// составляем обратный путь из цели в начало
-		Point p = destination;
-		path.Add (p);
-		while (p != source) {
-			p = from [p];
-			path.Add (p);
+		if (!cameFrom.ContainsKey (destination)) {
+			// Путь не найден, если цели нет на карте обратных перемещений
+			return path;
 		}
-		// обращаем путь
+		// Строим обратный путь
+		Point current = destination;
+		while (current != source) {
+			path.Add (current);
+			current = cameFrom [current];
+		}
+		// Не забываем добавить начало
+		path.Add (source);
+		// "Переворачиваем" путь
 		path.Reverse ();
 		return path;
 	}
-		
 
 }

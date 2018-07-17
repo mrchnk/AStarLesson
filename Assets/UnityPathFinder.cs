@@ -6,9 +6,9 @@ using UnityEngine.AI;
 /// Алгоритм поиска пути в графе с помошью встроенного в движок функционала.
 /// Расчитывает на то, что навигационный меш (NavMesh) правильно настроен в редакторе.
 /// </summary>
-public class UnityNavMesh: PathFinder {
+public class UnityPathFinder: PathFinder {
 
-	public UnityNavMesh() {
+	public UnityPathFinder() {
 	}
 
 	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination)

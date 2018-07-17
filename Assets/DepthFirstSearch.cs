@@ -1,58 +1,86 @@
 ﻿using System.Collections.Generic;
 
 /// <summary>
-/// Алгоритм поиска в глубину
+/// Алгоритм поиска в глубину (для прикола)
 /// </summary>
 public class DepthFirstSearch : PathFinder {
 
+	/// <summary>
+	/// Ищет путь в графе-лабиринте
+	/// </summary>
+	/// <returns>Путь по вершинам в графе</returns>
+	/// <param name="labirynth">Лабиринт-граф</param>
+	/// <param name="source">Вершина начала пути</param>
+	/// <param name="destination">Вершина конца пути</param>
 	public List<Point> FindPath (Labirynth labirynth, Point source, Point destination) {
-		HashSet<Point> visited = new HashSet<Point> ();
+		// Карта "обратных" перемещений (вершина) -> (откуда мы в нее попали)
+		Dictionary<Point, Point> cameFrom = new Dictionary<Point, Point> ();
+		// Стек вершин, по которым предстоит пройти
+		// Является границей текущей карты "обратных" перемещений
+		Stack<Point> frontier = new Stack<Point> ();
+
+		// Добавляем информацию о начале
+		cameFrom.Add (source, null);
+		frontier.Push (source);
+
+		while (frontier.Count > 0) {
+			// Берем первую вершину в стеке
+			Point current = frontier.Pop ();
+			// Ищем все соседние вершины
+			List<Point> neighbours = labirynth.GetNeighbours (current);
+
+			// Перемешаем соседей для драмматизма
+			Shuffle (neighbours);
+
+			foreach (Point neighbour in neighbours) {
+				// Эту вершину мы включили в нашу карту перемещений,
+				// значит мы смогли в нее прийти другим способом
+				if (cameFrom.ContainsKey (neighbour)) {
+					continue;
+				}
+				// Записываем что в `neighbour` мы попали из `current`
+				cameFrom.Add (neighbour, current);
+				frontier.Push (neighbour);
+			}
+		}
+
+		return BuildPath (cameFrom, source, destination);
+	}
+
+	/// <summary>
+	/// Строит путь используя карту "обратных" перемещений
+	/// </summary>
+	/// <returns>Путь из `source` в `destination` или пустой список, если путь не найден</returns>
+	private List<Point> BuildPath(Dictionary<Point, Point> cameFrom, Point source, Point destination) {
 		List<Point> path = new List<Point> ();
+		if (!cameFrom.ContainsKey (destination)) {
+			// Путь не найден, если цели нет на карте обратных перемещений
+			return path;
+		}
+		// Строим обратный путь
+		Point current = destination;
+		while (current != source) {
+			path.Add (current);
+			current = cameFrom [current];
+		}
+		// Не забываем добавить начало
 		path.Add (source);
-		visited.Add (source);
-		FindPath (labirynth, destination, path, visited);
+		// "Переворачиваем" путь
+		path.Reverse ();
 		return path;
 	}
 
 	/// <summary>
-	/// Вспомогательная функция с другой сигнатурой
+	/// Перемешать список вершин
 	/// </summary>
-	/// <returns><c>true</c>, если путь был найден, <c>false</c> иначе.</returns>
-	/// <param name="labirynth">граф-лабиринт</param>
-	/// <param name="destination">цель</param>
-	/// <param name="path">текущий путь</param>
-	/// <param name="visited">вершины которые мы обошли алгоритмом</param>
-	private bool FindPath(Labirynth labirynth, Point destination, 
-		List<Point> path, HashSet<Point> visited) {
-
-		// последний компонент пути
-		Point last = path [path.Count - 1];
-		if (last == destination) { // путь заканчивается на цели - значит это искомый путь
-			return true;
+	private void Shuffle(List<Point> list) {
+		int count = list.Count;
+		for (var i = 0; i < count - 1; i++) {
+			var r = UnityEngine.Random.Range(i, count);
+			Point tmp = list[i];
+			list[i] = list[r];
+			list[r] = tmp;
 		}
-
-		// текущие соседи
-		List<Point> neighbours = labirynth.GetNeighbours(last);
-		foreach (Point neighbour in neighbours) {
-			if (visited.Contains (neighbour)) {
-				// эту вершину мы уже посетили
-				continue;
-			} else if (labirynth.ObstacleAt( neighbour )) {
-				// через эту вершину пройти нельзя
-				continue;
-			}
-			path.Add (neighbour); // дополняем путь одной вершиной
-			visited.Add (neighbour); // отмечаем вершину посещенной
-			// проводим поиск с использованием этой вершины
-			if (FindPath (labirynth, destination, path, visited)) {
-				// если поиск с этой вершиной привел к положительному результату
-				// досрочно заканчиваем выполнение функции с положительным результатом
-				return true;
-			}
-			// иначе убираем этого соседа из текущего пути
-			path.Remove (neighbour);
-		}
-		return false;
 	}
 
 }
