@@ -15,3 +15,16 @@
 - поиск в глубину `DepthFirstSearch`
 - жадный алгоритм поиска `GreedyBestFirst`
 
+Подробности реализации
+----------------------
+
+На сцене `main` расположен объект LabirynthActor с таким же компонентом.
+Редактируя значения переменной `Path Finder` можно выбирать текущий алгоритм поиска пути.
+
+- `Default` ищет кратчайший путь - по прямой (класс `DefaultPathFinder`)
+- `Depth First Search` использует алгоритм поиска в глубину (класс `DepthFirstSearch`)
+- `Breadth First Search` использует алгоритм поиска в ширину (класс `DepthFirstSearch`)
+- `Greedy Best First` использует жадный алгоритм поиска (класс `GreedyBestFirst`)
+- `Dijkstra` использует алгоритм Дейкстры поиска пути (класс `Dijkstra`)
+- `A Star` использует алгоритм А* поиска пути (класс `AStar`)
+- `Unity` использует подсистему навигации движка Unity3D - NavMesh (класс `UnityPathFinder`)
