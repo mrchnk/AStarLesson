@@ -13,7 +13,7 @@
 
 - поиск в ширину `BreadthFirstSearch`
 - поиск в глубину `DepthFirstSearch`
-- жадный алгоритм поиска `GreedyBestFirst`
+- жадный алгоритм поиска `GreedyBestFirst` (реализация расчитывает на `PriorityQueue`)
 
 Подробности реализации
 ----------------------
